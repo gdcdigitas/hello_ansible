@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+  control:
+    image: ami:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: control
+    hostname: control
+    volumes:
+       - ./ansible:/home/ec2-user/ansible    
+    networks:
+      - ansiblenet
+  webserver:
+    image: ami:latest
+    container_name: webserver
+    hostname: webserver
+    ports:
+      - "8080:80"
+    networks:
+      - ansiblenet 
+networks:
+  ansiblenet:
+    driver: bridge
+    ipam:
+      driver: default
+
