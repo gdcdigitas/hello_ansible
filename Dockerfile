@@ -3,7 +3,7 @@ FROM amazonlinux:2
 
 MAINTAINER Gonzalo del Castillo <gonzalo.delcastillo@digitas.com>>
 
-RUN yum -y install python python-pip procps groupinfo sudo openssh openssh-server openssh-clients && yum -y clean all
+RUN yum -y install python python-pip procps groupinfo sudo openssh openssh-server openssh-clients iputils && yum -y clean all
 
 RUN useradd -rm -d /home/ec2-user -s /bin/bash -g root -u 1000 ec2-user
 RUN usermod -aG wheel ec2-user 
@@ -20,10 +20,17 @@ RUN /usr/bin/ssh-keygen -A && \
     chmod 600 /home/ec2-user/.ssh/id_rsa && \
     chmod 600 /home/ec2-user/.ssh/id_rsa.pub && \
     cp -a /home/ec2-user/.ssh/id_rsa.pub /home/ec2-user/.ssh/authorized_keys && \
-    chown -R ec2-user /home/ec2-user/.ssh
+    chown -R ec2-user /home/ec2-user/.ssh && \
+    echo "export PATH=$PATH:/home/ec2-user/.local/bin/" > /home/ec2-user/.bashrc && \
+    chown -R ec2-user /home/ec2-user/.bashrc
+
+USER ec2-user
+WORKDIR /home/ec2-user
+
+RUN pip install ansible --user
+
+USER root
 
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
 
-#USER ec2-user
-#WORKDIR /home/ec2-user 
 

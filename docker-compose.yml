@@ -5,18 +5,22 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: control
+    container_name: control 
     hostname: control
     volumes:
-       - ./ansible:/home/ec2-user/ansible    
+       - ./ansible:/home/ec2-user/ansible
     networks:
       - ansiblenet
-  webserver:
+  server:
     image: ami:latest
-    container_name: webserver
-    hostname: webserver
-    ports:
-      - "8080:80"
+    hostname: server
+    container_name: server 
+    networks:
+      - ansiblenet 
+  server_2:
+    image: ami:latest
+    hostname: server
+    container_name: server_2 
     networks:
       - ansiblenet 
 networks:
