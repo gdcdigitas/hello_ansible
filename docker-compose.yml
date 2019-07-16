@@ -3,7 +3,7 @@ services:
   control:
     image: ami:latest
     build:
-      context: .
+      context: ./docker
       dockerfile: Dockerfile
     container_name: control 
     hostname: control
