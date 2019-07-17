@@ -1,0 +1,12 @@
+---
+- name: this is a hello world example
+  hosts: servers
+  become: true
+  roles:
+  - basic
+  tasks:
+   - name: cat fstab
+     shell: cat /etc/fstab 
+     
+    
+  

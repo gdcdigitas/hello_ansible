@@ -1,0 +1,11 @@
+---
+- name: "Installing VIM"
+  yum:
+   name: "{{ packages }}" 
+  vars:
+    packages:
+    - vim-minimal
+    - bind-utils
+    - git
+
+
